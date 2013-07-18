@@ -1,0 +1,293 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML> 
+<HEAD> 
+<TITLE>U.S. Department of Labor -- The Department of Labor Developer Community</TITLE>
+<META NAME="keywords" CONTENT="Department of Labor, DOL, Secretary of Labor" />
+<!-- begin dol-styles.shtm -->
+<link rel="shortcut icon" href="http://www.dol.gov/favicon.ico" type="image/x-icon">
+<link rel="icon" href="http://www.dol.gov/favicon.ico" type="image/x-icon">
+<link href="http://www.dol.gov/dol.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="api.css" TYPE="text/css" />
+<link href="http://webapps.dol.gov/FSPublic/Content/W_Helpful.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+<!--
+caption {text-align:left; font-size:80%}
+table{margin-left:12px;}
+
+
+-->
+</style>
+
+<!-- end dol-styles.shtm -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script type="text/javascript" src="prettify.js"></script>
+<script language="JavaScript" type="text/javascript">
+
+	jQuery(document).ready(function(){
+
+		// This line of code makes code pretty to look at and understand.
+		window.prettyPrint && prettyPrint()
+	
+	});
+	
+
+
+</script>
+<!--start include header-dest-redesign3.shtm -->
+<script src="http://webapps.dol.gov/FSPublic/Scripts/W_Helpful.js" type="text/javascript"></script>
+<script type="text/javascript">
+		$(document).ready(function() {
+			W_Helpful.init('#fbcontent');
+		});
+</script> 
+</HEAD> 
+<BODY> 
+<a href="https://github.com/USDepartmentofLabor/PHP-Sample-App"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+<div id="Main">
+	<!--Header Start -->
+    <a href="#pagecontent" class="skipster">Skip to page content</a>
+
+<div id="Header">
+    <div id="Banner">
+        <p class="banner"><a href="http://www.dol.gov">United States Department of Labor</a></p>
+    </div>
+		<div id="RightColumn"><table><tr><td valign="bottom">
+		
+			</td><td>
+            
+  
+ 
+  
+            
+            
+          </td></tr>
+		  <tr><td colspan="2">
+			
+
+			</td></tr></table>
+		</div>
+	</div>
+    
+	<!--Header End -->
+
+	<!--Body Start -->
+	<div id="Body">
+		<div id="UtilityBar" class="tools">
+			<div class="utilitybarleft"><div id="agencyname">&nbsp;</div></div>
+
+			<!-- This is where the E-mail This page use to be -->
+			<div class="utilitybarright">
+				<div id="fbcontent" style="float:right"></div>			
+			</div>
+		</div>
+		<div class="crumb-links"><!-- begin crumb-nonav-auto.shtm -->
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0">
+  <TR>
+    <TD VALIGN="middle" ALIGN="LEFT" height="7" style="padding-left:2px"><span class="crumb-links">
+      <a href="http://www.dol.gov">DOL Home</a> &gt; <a href="http://www.dol.gov/open/">OPEN</a> &gt; <a href="http://developer.dol.gov">Developer Community</a> &gt; PHP GOV Data SDK Sample
+      </span> </td>
+
+  </tr>
+</table>
+<!-- end crumb-nonav-auto.shtm --></div>
+		<div id="content" >
+			<div id="pagecontent" style="width:768px;font-size:0;line-height:0;"></div>
+
+<!--end include header-dest-redesign3.shtm -->
+<!-- START CONTENT HERE  *************************************************** -->
+<h1>ColdFusion GOV Data SDK Sample</h1>
+
+<h2>Overview</h2>
+<p>
+This sample will provide the steps to create a simple ColdFusion application that can consume GOV Data. Following these steps in order will allow your application to operate correctly. <a href="https://github.com/USDepartmentofLabor/ColdFusion-Sample-App">Download this project.</a>
+</p><br>
+
+<h2>Create a New Project</h2>
+<p>
+For this sample we are going to create a web site that will consume and list Agency data.<br>
+
+Create a project folder for this sample.<br>
+
+Create a new text document using any text editor and save it as Sample.cfm in the project folder.<br>
+</p>
+ 
+
+<h2>Add the SDK To Your Project</h2>
+<p>
+Copy the SDK folder into the project folder.  You can get this from our <a href="https://github.com/USDepartmentofLabor/ColdFusion-Federal-SDK">GitHub Repository</a>.
+</p>
+
+
+
+
+<h2>Locate Dataset Path</h2>
+<p>
+Each Dataset has a Dataset Location path that gives the URL that will be needed 
+	to reach the Dataset on the API. For the standard GOV Agency dataset sample 
+	please use http://api.dol.gov/V1/DOLAgency.
+</p>
+
+<!-- <p>
+    For the GOV Service Operation sample please use http://api.dol.gov/V1/SummerJobs.
+<br>-->
+
+
+<h2>Define the SDK Object</h2>
+<p>
+This SDK is used in an object-oriented manner.  This provides for cleaner code that is easier to use and maintain.  Your first task is to create the object.<br><br>
+<pre class="prettyprint">&lt;cfscript&gt; 
+objSDK = CreateObject("component", "gov.dol.govAPISDK.SDK");
+&lt;/cfscript&gt;
+</pre>
+</p>
+
+<p>
+The next step will be to create the shell of the HTML page:<br><br>
+<pre class="prettyprint">&lt;html&gt;
+&lt;head&gt;
+	&lt;style&gt;
+	td {
+	border: 1px solid black;
+	}
+	&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+
+</pre>
+</p>
+<h2>Implementing the GOV Data Request</h2>
+
+<p>
+The rest of the code you will be writing will be between the body tags.  These next tags could be placed up with the object instantiation above, but if you're combining data from multiple federal agencies, you will likely find yourself using these later on in the document as we are now.  Let's set our object's properties (by default, they're "").
+<pre class="prettyprint">	&lt;!--- get your key at http://developer.dol.gov ---&gt;
+	&lt;cfset objSDK.API_KEY = "{ add your own API key here }"&gt;
+	&lt;cfset objSDK.API_HOST = "http://api.dol.gov"&gt;
+	&lt;cfset objSDK.API_URL = "/V1"&gt;
+	&lt;cfset API_METHOD = "DOLAgency/Agencies"&gt;
+</pre>
+</p>
+
+<p>
+Our next step will be to call the object's method that will give us our data.
+<pre class="prettyprint">	&lt;cfscript&gt;myAPICall = objSDK.submitRequest(API_METHOD);&lt;/cfscript&gt;&lt;br&gt;
+</pre>
+</p>
+
+<p>
+Our last step is now to loop through the result and print it to the screen.  As you use other agencies' APIs, you may want to cfdump your results first as the structure of the results will vary from API to API.
+<pre class="prettyprint">	&lt;table&gt;
+		&lt;tr&gt;
+			&lt;th&gt;Agency&lt;/th&gt;
+			&lt;th&gt;Full Name&lt;/th&gt;
+			&lt;th&gt;Web Site&lt;/th&gt;
+			&lt;th&gt;Mission Page&lt;/th&gt;
+			&lt;th&gt;Organizational Page&lt;/th&gt;
+			&lt;th&gt;Key Personnel Page&lt;/th&gt;
+		&lt;/tr&gt;
+		&lt;cfloop index="agencyItem" array="#myAPICall.d.results#"&gt;
+			&lt;cfoutput&gt;&lt;tr&gt;
+				&lt;td&gt;#agencyItem.Agency#&lt;/td&gt;
+				&lt;td&gt;#agencyItem.AgencyFullName#&lt;/td&gt;
+				&lt;td&gt;#agencyItem.WebsiteURL#&lt;/td&gt;
+				&lt;td&gt;#agencyItem.MissionURL#&lt;/td&gt;
+				&lt;td&gt;#agencyItem.OrganizationalURL#&lt;/td&gt;
+				&lt;td&gt;#agencyItem.KeyPersonnelURL#&lt;/td&gt;
+			&lt;tr&gt;&lt;/cfoutput&gt;
+		&lt;/cfloop&gt;
+	&lt;/table&gt;
+</pre>
+
+
+<p>
+The finished code should look like this:
+<pre class="prettyprint">&lt;cfscript&gt; 
+objSDK = CreateObject("component", "gov.dol.govAPISDK.SDK");
+&lt;/cfscript&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+	&lt;style&gt;
+	td {
+	border: 1px solid black;
+	}
+	&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+	&lt;!--- get your key at http://developer.dol.gov ---&gt;
+	&lt;cfset objSDK.API_KEY = "{ add your own API key here }"&gt;
+	&lt;cfset objSDK.API_HOST = "http://api.dol.gov"&gt;
+	&lt;cfset objSDK.API_URL = "/V1"&gt;
+	&lt;cfset API_METHOD = "DOLAgency/Agencies"&gt;
+
+	&lt;cfscript&gt;myAPICall = objSDK.submitRequest(API_METHOD);&lt;/cfscript&gt;&lt;br&gt;
+
+	&lt;table&gt;
+		&lt;tr&gt;
+			&lt;th&gt;Agency&lt;/th&gt;
+			&lt;th&gt;Full Name&lt;/th&gt;
+			&lt;th&gt;Web Site&lt;/th&gt;
+			&lt;th&gt;Mission Page&lt;/th&gt;
+			&lt;th&gt;Organizational Page&lt;/th&gt;
+			&lt;th&gt;Key Personnel Page&lt;/th&gt;
+		&lt;/tr&gt;
+		&lt;cfloop index="agencyItem" array="#myAPICall.d.results#"&gt;
+			&lt;cfoutput&gt;&lt;tr&gt;
+				&lt;td&gt;#agencyItem.Agency#&lt;/td&gt;
+				&lt;td&gt;#agencyItem.AgencyFullName#&lt;/td&gt;
+				&lt;td&gt;#agencyItem.WebsiteURL#&lt;/td&gt;
+				&lt;td&gt;#agencyItem.MissionURL#&lt;/td&gt;
+				&lt;td&gt;#agencyItem.OrganizationalURL#&lt;/td&gt;
+				&lt;td&gt;#agencyItem.KeyPersonnelURL#&lt;/td&gt;
+			&lt;tr&gt;&lt;/cfoutput&gt;
+		&lt;/cfloop&gt;
+	&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre><br><br>
+</p>
+ 
+ 
+
+
+<!-- END CONTENT HERE  *************************************************** -->
+<!---original location of this file: "/includes/" -->
+
+</div><!--Body End -->
+
+ </div>
+
+	<!--Footer Start -->
+	<div id="Footer">
+		<div id="FooterMenu">
+			<div id="FooterMenuContainer">
+				<a href="http://www.dol.gov/dol/foia/main.htm">Freedom of Information Act</a>&nbsp;|&nbsp;
+
+				<a href="http://www.dol.gov/dol/privacynotice.htm">Privacy & Security Statement</a>&nbsp;|&nbsp;
+				<a href="http://www.dol.gov/dol/disclaim.htm">Disclaimers</a>&nbsp;|&nbsp;
+				<a href="http://webapps.dol.gov/feedback/FeedbackSurvey.aspx">Customer Survey</a>&nbsp;|&nbsp;
+				<a href="http://www.dol.gov/dol/aboutdol/website-policies.htm">Important Web Site Notices</a>&nbsp;|&nbsp;
+
+                <a href="http://www.dol.gov/dol/aboutdol/plug-ins.htm">Plug-ins Used by GOV</a>
+			</div>
+		</div>
+	
+		<div id="FooterContact">
+			<div id="FooterContactContainer">
+				U.S. Department of Labor&nbsp;|&nbsp;Frances Perkins Building, 200 Constitution Ave., NW, Washington, DC 20210<br>
+
+				<a href="http://www.dol.gov" style=" text-decoration: underline; ">www.dol.gov</a>&nbsp;|&nbsp;Telephone: 1-866-4-USA-DOL (1-866-487-2365)&nbsp;|&nbsp;TTY: 1-877-889-5627&nbsp;|&nbsp;<u><a href="http://www.dol.gov/dol/contact/index.htm">Contact Us</a></u>
+			</div>
+		</div>
+	</div>
+	<!--Footer End -->
+
+
+</div><!--Main End -->
+
+  </BODY>
+</HTML>
